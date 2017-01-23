@@ -13,6 +13,10 @@ class UploadedFilesController < ApplicationController
     if @uploaded_file.save
       @uploaded_file.update(name: @uploaded_file.attachment.identifier,
                             path: @uploaded_file.attachment.url)
+
+      Hutch.connect
+      Hutch.publish('routing.key', subject: 'payment', action: 'received')
+
       redirect_to uploaded_files_path, notice: "The file #{@uploaded_file.name} has been uploaded."
     else
       render 'new'
