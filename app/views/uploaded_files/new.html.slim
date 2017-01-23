@@ -1,2 +1,11 @@
-h1 UploadedFiles#new
-p Find me in app/views/uploaded_files/new.html.slim
+h1 Upload a file
+
+- if @uploaded_file.present?
+  ul
+    - @uploaded_file.errors.full_messages.each do |msg|
+        li = msg
+
+= form_for @uploaded_file, html: {multipart: true} do |f|
+  = f.label :attachment
+  = f.file_field :attachment
+  = f.submit 'Save'

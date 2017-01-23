@@ -1,2 +1,14 @@
-h1 UploadedFiles#index
-p Find me in app/views/uploaded_files/index.html.slim
+h1 Upload Files
+
+- if flash[:notice].present?
+  .alert
+    = flash[:notice]
+
+= link_to 'New File', new_uploaded_file_path
+
+ul
+  - @uploaded_files.each do |uploaded_file|
+    li
+      .name = uploaded_file.name
+      .url = link_to 'Download', uploaded_file.attachment_url
+      .delete = button_to 'Delete', uploaded_file, method: :delete
